@@ -1,0 +1,104 @@
+body {
+    font-family: arial;
+}
+.topbar {
+    position:fixed;
+    right:0px;
+    left:0px;
+    top:0px;
+    padding:10px;
+    background-color:#222;
+}
+.bottombar {
+    position:fixed;
+    right:0px;
+    left:0px;
+    bottom:0px;
+    padding:10px;
+    background-color:#222;
+    color: #fff;
+    display: flex;
+    gap: 8px;
+    transition: transform 0.2s ease;  /* smooth slide */
+}
+.bottombar.collapsed {
+    transform: translateX(calc(100% - 55px));  /* leave a little tab visible */
+    border-radius: 18px 0 0 0;  /* top-left, top-right, bottom-right, bottom-left */
+}
+.bottombar > input {
+    width: 600px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+.search {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.control {
+    color: #fff;
+    //margin: 5px;
+    display: inline-block;
+    max-width: 60px;
+    width: 15%;
+    //max-width: 50px;
+    text-align: center;
+}
+.timer {
+    color: #fff;
+    font-size: 24pt;
+    font-family: times;
+    max-width: 140px;
+    width: 34%;
+    display: inline-block;
+}
+#playing {
+    color: #f50;
+    padding: 5px;
+}
+.song {
+    color: #222;
+    text-decoration: none;
+}
+.song:hover {
+    color: #f50;
+    text-decoration: underline;
+}
+.current {
+    color: #f50;
+}
+#clickbar {
+    border: 1px solid #222;
+    height: 20px;
+    width: 100%;
+}
+.bar_container {
+    background-color: #fff;
+    height: 2px;
+    width: 100%;
+    margin-top: 9px;
+}
+#scrubbar {
+    background-color: #f50;
+    height: 100%;
+    width: 0%;
+}
+#floating_time {
+    color: #fff;
+    background-color: #222;
+    border: 1px solid #f50;
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    padding: 5px;
+    border-radius: 5px;
+    display: none;
+}
+.spacer {
+    height: 135px;
+}
+#debuglog {
+    font-size: 10px;
+    color: gray;
+    max-height: 150px;
+    overflow-y: auto;
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
+        <link rel="stylesheet" href="css/style.css">
+        <script>
+            var songs_full = [
+                [%- FOREACH item IN songs %]
+                '[% item %]',
+                [%- END %]
+            ];
+            var mapping_full = [ [% mapping.join(', ') %] ];
+        </script>
+        <script src="script.js" defer></script>
+    </head>
+    <body>
+        <div class="topbar">
+            <div id="playing"></div>
+            <audio id="player"  preload="auto">Audio tag not supported.</audio>
+            <audio id="silence" preload="auto" src="silence.mp3" loop>Audio tag not supported.</audio>
+            <span class="timer"><span id="current_time">0:00</span>/<span id="end_time">0:00</span></span>
+            <a class="control" href="javascript:prev()"><i class="fa fa-3x fa-step-backward"></i></a>
+            <a class="control" href="javascript:pause()" id="pause"><i class="fa fa-3x fa-play-circle"></i></a>
+            <a class="control" href="javascript:next()"><i class="fa fa-3x fa-step-forward"></i></a>
+            <a class="control" href="javascript:toggle_shuffle()" id="shuffle" title="Shuffle is off"><i class="fa fa-3x fa-random"></i></a>
+            <br />
+            <div id="clickbar" onclick="scrub(event)" onmouseover="document.getElementById('floating_time').style.display='block'" onmouseout="document.getElementById('floating_time').style.display='none'">
+                <div class="bar_container"><div id="scrubbar"></div></div>
+            </div>
+        </div>
+        <div class="spacer"></div>
+        <span id="floating_time">0:00</span>
+        <div id="debuglog"></div>
+        <div id="links"></div>
+        <div class="bottombar collapsed">
+            <i class="fa fa-2x fa-search search" title="Search (/)"></i>
+            <input id="filter" type="text" />
+        </div>
+    </body>
+</html>
