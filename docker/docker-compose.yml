@@ -1,0 +1,10 @@
+music:
+  image: debian:dancer
+  restart: unless-stopped
+  environment:
+    - VIRTUAL_HOST=music.example.com
+    - LETSENCRYPT_HOST=music.example.com
+  volumes:
+    - "/path/to/this/repo:/usr/src/app"
+    - "/path/to/your/music:/usr/src/app/public/media:ro"
+  command: starman -l 0.0.0.0:5000 --access-log /dev/stdout bin/app.psgi

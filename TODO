@@ -2,3 +2,5 @@ TODO
 - make it fit nicer on a phone screen
 - database backend
 - lots of metadata stuff
+- add a README file for github
+- figure out how to use nginx or apache to serve the music to support the http range header
