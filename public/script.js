@@ -1,5 +1,4 @@
 var player    = document.getElementById('player');
-var silence   = document.getElementById('silence');
 var filter    = document.getElementById('filter');
 var bottombar = document.querySelector('.bottombar');
 var shuffle   = 0;
@@ -7,27 +6,6 @@ var current   = mapping_full[0];
 var previous  = current;
 var songs     = songs_full;
 var mapping   = mapping_full;
-/*
-var current_title = "";
-var padding = 8;
-var ms_per_char = 200;
-var title_start_pause = 2000;
-var non_breaking_space = "\u00A0";
-var zero_width_space = "\u200B";
-
-function cycle_title() {
-    if(current_title.slice(-8) == non_breaking_space.repeat(padding)) {
-        setTimeout(cycle_title, title_start_pause);
-    } else {
-        setTimeout(cycle_title, ms_per_char);
-    }
-    if(current_title == "") { return; }
-    document.title = zero_width_space + current_title + zero_width_space;
-    current_title = current_title.slice(1) + current_title[0];
-}
-
-window.onload = cycle_title;
-*/
 
 // Media Session API stuff
 if('mediaSession' in navigator) {
@@ -123,7 +101,8 @@ function prev() {
 }
 
 function pause() {
-    var icon = document.getElementById("pause");
+    var silence = document.getElementById('silence');
+    var icon = document.getElementById('pause');
     if(player.paused) {
         player.play();
         silence.play();
@@ -166,12 +145,6 @@ function create_links() {
     document.getElementById("links").innerHTML = songs.map(
         (song, i) => `<a class="song" id="link${i}" href="javascript:click(${i})">${song}</a><br />`
     ).join('\n');
-}
-
-function dlog(msg) {
-    var d = document.getElementById('debuglog');
-    var t = new Date().toTimeString().slice(0,8);
-    d.innerHTML += t + ' ' + msg + '<br>';
 }
 
 document.addEventListener('keydown', function(event) {

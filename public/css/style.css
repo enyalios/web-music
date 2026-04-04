@@ -96,9 +96,3 @@ body {
 .spacer {
     height: 135px;
 }
-#debuglog {
-    font-size: 10px;
-    color: gray;
-    max-height: 150px;
-    overflow-y: auto;
-}

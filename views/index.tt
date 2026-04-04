@@ -32,7 +32,6 @@
         </div>
         <div class="spacer"></div>
         <span id="floating_time">0:00</span>
-        <div id="debuglog"></div>
         <div id="links"></div>
         <div class="bottombar collapsed">
             <i class="fa fa-2x fa-search search" title="Search (/)"></i>
