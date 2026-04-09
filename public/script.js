@@ -6,6 +6,7 @@ var current   = mapping_full[0];
 var previous  = current;
 var songs     = songs_full;
 var mapping   = mapping_full;
+var metadata;
 
 // Media Session API stuff
 if('mediaSession' in navigator) {
@@ -16,44 +17,30 @@ if('mediaSession' in navigator) {
     navigator.mediaSession.setActionHandler('pause', pause);
 }
 
-function set_title(name) {
-    // find the artist
-    var artist = name.replace(/\/.*/, "");
-    // find the song name
-    var title = name.replace(/.*\//, "");
-    // strip off any file extension
-    title = title.replace(/.(m4a|flac|ogg|mp3)$/i, "");
-    // strip off the artist name if its at the start of the filename
-    var regex = new RegExp("^" + artist + "[- _]?", "i");
-    title = title.replace(regex, "");
-    // strip off any track numbers at the start of the filename
-    title = title.replace(/^\d+( - | |_|-)?/, "");
-
-    // put everything together
-    artist = artist.replace(/_/g, " ");
-    title = title.replace(/_/g, " ");
-    var string = artist + " - " + title;
-    if(player.paused) {
-        string += " (Paused)";
-    }
-    document.title = string;
+async function get_metadata(name) {
+    const response = await fetch("meta?file=" + encodeURIComponent(name));
+    metadata = await response.json();
+    set_title();
 
     // Set metadata (shows on car display / lock screen)
     if('mediaSession' in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata({
-            title: title,
-            artist: artist,
-            //album: song.album,
-            artwork: [{ src: 'cover.jpg', sizes: '626x626', type: 'image/jpeg' }]
+            title: metadata.title,
+            artist: metadata.artist,
+            album: metadata.album,
+            artwork: [{ src: metadata.cover }]
         });
+        console.log("art: " + metadata.cover);
     }
+}
 
-    // current_title = string + " ".repeat(padding);
-    // current_title = current_title.replaceAll(" ", non_breaking_space);
+function set_title() {
+    var title = metadata.artist + " - " + metadata.title;
+    if(player.paused) title += " (Paused)";
+    document.title = title;
 }
 
 function play(song) {
-    //dlog("Playing " + song + " " + songs[song]);
     if(document.getElementById("link" + previous)) {
         document.getElementById("link" + previous).classList.remove("current");
     }
@@ -68,7 +55,7 @@ function play(song) {
     }
     player.play();
     document.getElementById("pause").innerHTML = '<i class="fa fa-pause-circle fa-3x"></i>';
-    set_title(name);
+    get_metadata(name);
 }
 
 function click(i) {
@@ -118,11 +105,7 @@ function pause() {
             navigator.mediaSession.playbackState = 'paused';
         }
     }
-    if(shuffle) {
-        set_title(songs[mapping[current]]);
-    } else {
-        set_title(songs[current]);
-    }
+    set_title();
 }
 
 function seconds_to_timer(sec) {

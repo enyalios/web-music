@@ -30,4 +30,29 @@ get '/' => sub {
     };
 };
 
+sub coverart {
+    my $path = $_[0];
+    while($path =~ /^\Q$music_path\E/) {
+        if(-e "$path/cover.jpg") {
+            $path =~ s!^public/!!;
+            return "$path/cover.jpg"
+        }
+        $path =~ s!/[^/]*$!!;
+    }
+    return "cover.jpg";
+}
+
+get '/meta' => sub {
+    my $file = $music_path . "/" .query_parameters->get('file');
+    return "Bad path." if $file =~ m!/\.\./!;
+    open(my $fh, '-|', qw'ffprobe -v quiet -show_entries stream_tags:format_tags', $file)
+        or die "Could not run ffprobe: $!";
+    my %tag;
+    while(<$fh>) {
+        $tag{$1} = $2 if /^TAG:([^=]+)=(.*)$/;
+    }
+    $tag{cover} = coverart($file);
+    return encode_json \%tag;
+};
+
 true;
