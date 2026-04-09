@@ -31,12 +31,12 @@ async function get_metadata(name) {
             album: metadata.album,
             artwork: [{ src: metadata.cover }]
         });
-        console.log("art: " + metadata.cover);
     }
 }
 
 function set_title() {
     var title = metadata.artist + " - " + metadata.title;
+    if(title.includes('undefined')) title = songs[shuffle ? mapping[current] : current];
     if(player.paused) title += " (Paused)";
     document.title = title;
 }
