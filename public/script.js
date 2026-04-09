@@ -1,5 +1,6 @@
 var player    = document.getElementById('player');
 var filter    = document.getElementById('filter');
+var clickbar  = document.getElementById('clickbar');
 var bottombar = document.querySelector('.bottombar');
 var shuffle   = 0;
 var current   = mapping_full[0];
@@ -117,10 +118,6 @@ function seconds_to_timer(sec) {
     return minutes + ":" + seconds;
 }
 
-function scrub(event) {
-    player.currentTime = player.duration * event.offsetX / document.getElementById("clickbar").clientWidth;
-}
-
 function create_links() {
     var string = filter.value;
     songs = songs_full.filter(item => item.toLowerCase().includes(string.toLowerCase()));
@@ -146,10 +143,10 @@ document.addEventListener('keydown', function(event) {
 });
 
 document.addEventListener('mousemove', function(event) {
-    var popup = document.getElementById("floating_time");
+    var popup = document.getElementById('floating_time');
     popup.style.left = event.pageX - popup.clientWidth / 2 + "px";
     popup.style.top = event.pageY - popup.clientHeight - 10 + "px";
-    popup.innerHTML = seconds_to_timer(player.duration * event.offsetX / document.getElementById("clickbar").clientWidth);
+    popup.innerHTML = seconds_to_timer(player.duration * event.offsetX / clickbar.clientWidth);
 });
 
 player.addEventListener('ended', next);
@@ -169,6 +166,18 @@ bottombar.addEventListener('click', function() {
     bottombar.classList.remove('collapsed');
     filter.focus();
     filter.select();
+});
+
+clickbar.addEventListener('click', function(event) {
+    player.currentTime = player.duration * event.offsetX / clickbar.clientWidth;
+});
+
+clickbar.addEventListener('mouseover', function() {
+    document.getElementById('floating_time').style.display='block';
+});
+
+clickbar.addEventListener('mouseout', function() {
+    document.getElementById('floating_time').style.display='none';
 });
 
 setInterval(function() {

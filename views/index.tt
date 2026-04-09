@@ -26,9 +26,7 @@
             <a class="control" href="javascript:next()"><i class="fa fa-3x fa-step-forward"></i></a>
             <a class="control" href="javascript:toggle_shuffle()" id="shuffle" title="Shuffle is off"><i class="fa fa-3x fa-random"></i></a>
             <br />
-            <div id="clickbar" onclick="scrub(event)" onmouseover="document.getElementById('floating_time').style.display='block'" onmouseout="document.getElementById('floating_time').style.display='none'">
-                <div class="bar_container"><div id="scrubbar"></div></div>
-            </div>
+            <div id="clickbar"><div class="bar_container"><div id="scrubbar"></div></div></div>
         </div>
         <div class="spacer"></div>
         <span id="floating_time">0:00</span>
