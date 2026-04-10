@@ -18,6 +18,10 @@ if('mediaSession' in navigator) {
     navigator.mediaSession.setActionHandler('pause', pause);
 }
 
+function get_index() {
+    return shuffle ? mapping[current] : current;
+}
+
 async function get_metadata(name) {
     const response = await fetch("meta?file=" + encodeURIComponent(name));
     metadata = await response.json();
@@ -26,7 +30,7 @@ async function get_metadata(name) {
     // Set metadata (shows on car display / lock screen)
     if('mediaSession' in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata({
-            title: metadata.title,
+            title: metadata.title || songs[get_index()],
             artist: metadata.artist,
             album: metadata.album,
             artwork: [{ src: metadata.cover }]
@@ -36,7 +40,7 @@ async function get_metadata(name) {
 
 function set_title() {
     var title = metadata.artist + " - " + metadata.title;
-    if(title.includes('undefined')) title = songs[shuffle ? mapping[current] : current];
+    if(title.includes('undefined')) title = songs[get_index()];
     if(player.paused) title += " (Paused)";
     document.title = title;
 }
@@ -46,7 +50,7 @@ function play(song) {
         document.getElementById("link" + previous).classList.remove("current");
     }
     document.getElementById("link" + song).classList.add("current");
-    previous = shuffle ? mapping[current] : current;
+    previous = get_index();
     var name = songs[song]
     document.getElementById("playing").innerHTML = name;
     player.src = "media/" + name;
@@ -80,12 +84,12 @@ function toggle_shuffle() {
 
 function next() {
     current = (current + 1) % songs.length;
-    play(shuffle ? mapping[current] : current);
+    play(get_index());
 }
 
 function prev() {
     current = (current - 1 + songs.length) % songs.length;
-    play(shuffle ? mapping[current] : current);
+    play(get_index());
 }
 
 function pause() {
@@ -193,4 +197,5 @@ window.onload = function() {
     var name = songs[current]
     document.getElementById("playing").innerHTML = name;
     player.src = "media/" + name;
+    get_metadata(name);
 };
