@@ -189,6 +189,13 @@ setInterval(function() {
         document.getElementById("end_time").innerHTML = seconds_to_timer(player.duration);
         document.getElementById("current_time").innerHTML = seconds_to_timer(player.currentTime);
         document.getElementById("scrubbar").style.width = 100 * player.currentTime / player.duration + "%";
+        if(navigator.mediaSession) {
+            navigator.mediaSession.setPositionState({
+                duration: player.duration,
+                playbackRate: player.playbackRate,
+                position: player.currentTime,
+            });
+        }
     }
 }, 200);
 
